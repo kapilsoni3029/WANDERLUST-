@@ -105,7 +105,9 @@ app.use((req,res,next)=>{
     // console.log(res.locals.success);
     next();
 });
-
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
 app.use("/listings",listingRouter); //express router for listing routes
 app.use("/listings/:id/reviews",reviewRouter); //express router for review routes
 app.use("/",userRouter);
