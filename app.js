@@ -137,7 +137,7 @@ app.use((req,res,next)=>{
 app.use((err,req,res,next)=>{
     // console.log(err);
     let{status=500,message="something went wrong"}=err;
-    res.status(status).render("Error.ejs",{message});
+    res.status(status).render("error.ejs",{message});
     // res.status(status).send(message);
 });
 app.listen(8080,()=>{
