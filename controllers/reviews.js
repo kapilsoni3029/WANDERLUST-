@@ -1,0 +1,28 @@
+const Review= require("../models/review");
+const Listing= require("../models/listing");
+
+module.exports.createReview=async(req,res)=>{
+    console.log("review rotute hi");
+    let listing=await Listing.findById(req.params.id);
+    let newReview=new Review(req.body.review);
+    newReview.author=req.user._id;
+    // console.log(newReview);
+    listing.reviews.push(newReview);//reviews array of listing
+
+    await newReview.save();
+    await listing.save();
+    req.flash("success","New Review Created");
+    res.redirect(`/listings/${listing._id}`);
+};
+module.exports.destroyReview=async(req,res)=>{
+    let{id,reviewId}=req.params;
+
+     //delete review from review array in database
+    await Listing.findByIdAndUpdate(id,{$pull:{reviews:reviewId}});
+    //delete review 
+    await Review.findByIdAndDelete(reviewId);
+    req.flash("success","Review Deleted");
+    res.redirect(`/listings/${id}`)
+
+}
+
